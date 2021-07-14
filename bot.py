@@ -23,6 +23,9 @@ async def quote(ctx, symbol):
         "volume24Hr": "24 Hour Volume"
     }
     ticker = yf.Ticker(symbol)
+    if not ticker.info["regularMarketPrice"]:
+        await ctx.send("`Invalid Ticker`")
+        return
     response = "\n".join([f"{LABELS[category]}: {ticker.info[category]}" for category in CATEGORIES])
     await ctx.send(f"```{response}```")
 
@@ -30,6 +33,9 @@ async def quote(ctx, symbol):
 async def dd(ctx, symbol):
     print("received")
     ticker = yf.Ticker(symbol)
+    if not ticker.info["regularMarketPrice"]:
+        await ctx.send("`Invalid Ticker`")
+        return
     response = "\n".join([f"{key}: {ticker.info[key]}" for key in ticker.info.keys()])
     for line in textwrap.wrap(response, 1996):
         await ctx.send(f"```{line}```")
