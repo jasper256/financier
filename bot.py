@@ -1,6 +1,7 @@
 import os
 from discord.ext import commands
 from dotenv import load_dotenv
+import textwrap
 import yfinance as yf
 
 
@@ -27,7 +28,8 @@ async def quote(ctx, symbol):
 async def dd(ctx, symbol):
     print("received")
     ticker = yf.Ticker(symbol)
-    response = "```" + "\n".join([f"{key}: {ticker.info[key]}" for key in ticker.info.keys()])[:1994] + "```"
-    await ctx.send(response)
+    response = "\n".join([f"{key}: {ticker.info[key]}" for key in ticker.info.keys()])
+    for line in textwrap.wrap(response, 1996):
+        await ctx.send(f"```{line}```")
 
 bot.run(TOKEN)
