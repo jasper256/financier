@@ -21,8 +21,8 @@ async def quote(ctx, symbol):
         "volume24Hr": "24 Hour Volume"
     }
     ticker = yf.Ticker(symbol)
-    response = "```" + "\n".join([f"{LABELS[category]}: {ticker.info[category]}" for category in CATEGORIES]) + "```"
-    await ctx.send(response)
+    response = "\n".join([f"{LABELS[category]}: {ticker.info[category]}" for category in CATEGORIES])
+    await ctx.send(f"```{response}```")
 
 @bot.command(name="dd", help="Fetches information on provided ticker")
 async def dd(ctx, symbol):
